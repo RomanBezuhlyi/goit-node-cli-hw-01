@@ -1,5 +1,4 @@
-const yargs = require("yargs");
-const { hideBin } = require("yargs/helpers");
+const { program } = require("commander");
 
 const contacts = require("./contacts");
 
@@ -30,7 +29,15 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-const arr = hideBin(process.argv);
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
 
-const { argv } = yargs(arr);
-invokeAction(argv);
+program.parse();
+
+const options = program.opts();
+console.log(options);
+invokeAction(options);
